@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Contact From</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Contact Form</h2>
+
+        <form class="form-inline" method="POST" action="/contacts" id="my-form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control <%= error.name ? 'is-invalied ' : '' %>" id="name" placeholder="Enter Your Name" name="name">
+                <div class="invalid-feedback">
+                    <%= error.name %>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control <%= error.email ? 'is-invalied' : '' %>" id="email" placeholder="Enter email" name="email">
+                <div class="invalid-feedback">
+                    <%= error.email%>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name">Phone Number:</label>
+                <input type="text" class="form-control <%= error.phone ? ' is-invalied ' : '' %>" id="phone" placeholder="Enter phone" name="phone">
+                <div class="invalid-feedback">
+                    <%= error.phone %>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id"></label>
+                <input type="hidden" name="id">
+            </div>
+            <div class="form-group">
+
+                <input type="submit" class="btn btn-primary " id="submit" value="Submit " />
+            </div>
+
+        </form>
+    </div>
+
+    <!--- Table Start -->
+
+    <div class="container ">
+        <h2>Contact Table</h2>
+
+        <table class="table table-hover ">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number </th>
+                    <th> Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let contact of contacts) {  %>
+
+
+                    <tr>
+                        <td>
+                            <%= contact.id %>
+                        </td>
+                        <td>
+                            <%= contact.name %>
+                        </td>
+                        <td>
+                            <%= contact.email %>
+                        </td>
+                        <td>
+                            <%= contact.phone %>
+                        </td>
+                        <td> <button type="button " class="btn btn-warning eidt-btn" data-name=" <%=contact.name %>" data-email=" <%=contact.email %>" data-phone=" <%=contact.phone %>" data-id=" <%=contact._id %>">Edit</button>
+                            <a class="btn btn-danger " href="/contacts/delete/<%= contact._id %>"> Delete</a>
+                        </td>
+                    </tr>
+
+                    <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- table end-->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+            let editBtns = document.getElementsByClassName('eidt-btn')
+            let form = document.getElementById('my-form');
+            [...editBtns].forEach(btn => {
+                btn.addEventListener('click', function(e) {
+
+                    let {
+                        name,
+                        email,
+                        phone,
+                        id
+                    } = e.target.dataset
+
+                    form[0].value = name
+                    form[1].value = email
+                    form[2].value = phone
+                    form[3].value = id
+                    form[4].value = 'Update'
+
+                    //console.log(e.target.dataset)
+                })
+
+            })
+
+        }
+    </script>
+</body>
+
+</html>
